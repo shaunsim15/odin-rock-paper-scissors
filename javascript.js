@@ -11,12 +11,30 @@
 function computerPlay() {
     let response = Math.floor(Math.random()*3);
     if (response === 0){
-        return "Rock"
+        return "Rock";
     }
     else if (response === 1){
-        return "Paper"
+        return "Paper";
     }
     else{
-        return "Scissors"
+        return "Scissors";
     }
 }
+
+function playRound(playerSelection, computerSelection){
+    playerSelection = playerSelection.toLowerCase()
+    computerSelection = computerSelection.toLowerCase()
+    if (playerSelection === computerSelection){
+        return `Draw! You both played ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)}.`;
+    }
+    else if ( (playerSelection==='rock' && computerSelection==='scissors') || (playerSelection==='scissors' && computerSelection==='paper') || (playerSelection==='paper' && computerSelection==='rock') ){
+        return `You win! ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)} beats ${computerSelection.slice(0,1).toUpperCase()}${computerSelection.slice(1)}`
+    }
+    else{
+        return `You Lose! ${computerSelection.slice(0,1).toUpperCase()}${computerSelection.slice(1)} beats ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)}`;
+    }
+}
+
+const playerSelection = "rock";
+const computerSelection = computerPlay();
+console.log(playRound(playerSelection, computerSelection));
