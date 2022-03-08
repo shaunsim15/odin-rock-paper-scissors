@@ -1,98 +1,123 @@
-// Phase 1: Understand problem- create RPS game.
-// Phase 2: Plan 
-// RPS Game: Take user input- prompt user or show instructions on what to do.
-// User input taken via Chrome Console- no 3-button-GUI. Only accept input in form of rock/paper/scissors text.
-// Generate random computer response after user submits input.
-// Phase 3: Implement subproblems
-// Subproblem 1 is computerPlay function which randomly generates integer from 0-2 inclusive
-
-
-// Randomly returns either a string (either 'rock', 'paper' or 'scissors').
+// Randomly returns a string (either 'rock', 'paper' or 'scissors').
 function computerPlay() {
     let response = Math.floor(Math.random()*3);
     if (response === 0){
-        return "Rock";
+        return "rock";
     }
     else if (response === 1){
-        return "Paper";
+        return "paper";
     }
     else{
-        return "Scissors";
+        return "scissors";
     }
 }
 
-// Takes computer and user selections (rock/paper/scissors) and returns a string declaring a win/loss/draw
-function playRound(playerSelection, computerSelection){
-    if (playerSelection == 1){
-        console.log("Error- user cancelled the window. playRound() aborted.");
-        return 1;
+
+// Takes computer and user selections (rock/paper/scissors) and determines the round outcome.
+function playRound(e){
+    // Define the player's Selection
+    let playerSelection;
+    if (e.target.classList.contains('rock')){
+        playerSelection = 'rock';
     }
-    playerSelection = playerSelection.toLowerCase()
-    computerSelection = computerSelection.toLowerCase()
-    const draw = "Draw!";
-    const win = "You Win!";
-    const loss = "You Lose!";
+    else if(e.target.classList.contains('paper')){
+        playerSelection = 'paper';
+    }
+    else if(e.target.classList.contains('scissors')){
+        playerSelection = 'scissors';
+    }
+
+    // Define the computer's Selection
+    let computerSelection = computerPlay()
+    
+    // Compare the player and computer selections to determine round outcome, and update variables / HTML text.
     if (playerSelection === computerSelection){
-        return `${draw} You both played ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)}.`;
+        playerScoreDiv.textContent = `Player Score: ${playerScore}`;
+        compScoreDiv.textContent = `Comp Score: ${compScore}`;
+        currentResultDiv.textContent = `Draw! You both played ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)}.`;
     }
     else if ( (playerSelection==='rock' && computerSelection==='scissors') || (playerSelection==='scissors' && computerSelection==='paper') || (playerSelection==='paper' && computerSelection==='rock') ){
-        return `${win} ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)} beats ${computerSelection.slice(0,1).toUpperCase()}${computerSelection.slice(1)}.`
+        playerScore += 1;
+        playerScoreDiv.textContent = `Player Score: ${playerScore}`;
+        currentResultDiv.textContent = `You Win! ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)} beats ${computerSelection.slice(0,1).toUpperCase()}${computerSelection.slice(1)}.`
     }
     else{
-        return `${loss} ${computerSelection.slice(0,1).toUpperCase()}${computerSelection.slice(1)} beats ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)}.`;
+        compScore += 1;
+        compScoreDiv.textContent = `Comp Score: ${compScore}`;
+        currentResultDiv.textContent = `You Lose! ${computerSelection.slice(0,1).toUpperCase()}${computerSelection.slice(1)} beats ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)}.`;
     }
-}
 
-const playerSelection = "rock";
-const computerSelection = computerPlay();
-console.log(playRound(playerSelection, computerSelection));
-
-// Ensures the player keys in a string of the correct format (either rock, paper or scissors)
-function playerInput(){
-    let response;
-    while (true){
-        response = prompt("Please type in Rock, Paper or Scissors:");
-        if (response === null){
-            console.log("Error- user cancelled the window. playerInput() aborted.");
-            return 1;
-        }
-        else if (response.toLowerCase() === "rock" || response.toLowerCase() === "paper"|| response.toLowerCase() === "scissors"){
-            return response;
-        }
-    }
-}
-// Plays a five-round game of rock, paper, scissors.
-function game(){
-    let result;
-    let playerScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++){
-        result = playRound(playerInput(), computerPlay());
-        if (result === 1){
-            console.log("Error- user cancelled the window. game() aborted.");
-            return 1;
-        }
-        if (result.includes("You Win!")){
-            playerScore++;
-            console.log(`${result} Player Score is ${playerScore} and Computer Score is ${computerScore}`)
-        }
-        else if (result.includes("You Lose!")){
-            computerScore++;
-            console.log(`${result} Player Score is ${playerScore} and Computer Score is ${computerScore}`)
+    // Update round number
+    roundsPlayed += 1;
+    roundNoDiv.textContent = `Rounds Played: ${roundsPlayed}`;
+   
+    // Run at the end of the game (when one player gets the points needed for victory)
+    if (playerScore === pointsForVictory || compScore === pointsForVictory){
+        // Update final results
+        if (playerScore === pointsForVictory){
+            finalResultsDiv.textContent = "Winner: Player";
         }
         else{
-            console.log(`${result} Player Score is ${playerScore} and Computer Score is ${computerScore}`)
+            finalResultsDiv.textContent = "Winner: Computer";
         }
-    }
-    
-    if(playerScore > computerScore){
-        console.log("Game over. You are the overall winner!");
-    }
-    else if (computerScore > playerScore){
-        console.log("Game over. The computer is the overall winner!");
-    }
-    else{
-        console.log("Game over. Overall, it's a draw!");
-    }
 
+        // Append Reset button
+        const resetButton = document.createElement('button');
+        const resetText = document.createTextNode('Reset Game');
+        resetButton.appendChild(resetText);
+        infoDiv.appendChild(resetButton);
+        resetButton.setAttribute('class','reset');
+        resetButton.addEventListener('click',resetGame)
+
+        // Freeze all other buttons
+        rockButton.removeEventListener('click',playRound);
+        paperButton.removeEventListener('click',playRound);
+        scissorsButton.removeEventListener('click',playRound);
+        return;
+    }
 }
+
+// Runs after the reset button is pressed at the end of a whole game (comprising several rounds)
+function resetGame(){
+    compScore = 0;
+    playerScore = 0;
+    roundsPlayed = 0;
+
+    // Unappend reset button
+    document.querySelector('.reset').remove();
+
+    // Unfreeze all other buttons
+    rockButton.addEventListener('click',playRound);
+    paperButton.addEventListener('click',playRound);
+    scissorsButton.addEventListener('click',playRound);
+
+    // Reset displayed text
+    roundNoDiv.textContent = `Rounds Played: ${roundsPlayed}`;
+    playerScoreDiv.textContent = 'Player Score:';
+    compScoreDiv.textContent = 'Comp Score:';
+    currentResultDiv.textContent = '';
+    finalResultsDiv.textContent = "Winner:";
+}
+
+// Initial variable values
+let compScore = 0;
+let playerScore = 0;
+let roundsPlayed = 0;
+const pointsForVictory = 5;
+
+// Buttons
+const rockButton = document.querySelector('.rock');
+const paperButton = document.querySelector('.paper');
+const scissorsButton = document.querySelector('.scissors');
+const infoDiv = document.querySelector('.info');
+const roundNoDiv = document.querySelector('.roundNo');
+const playerScoreDiv = document.querySelector('.playerScore');
+const compScoreDiv = document.querySelector('.compScore');
+const currentResultDiv = document.querySelector('.currentResult');
+const finalResultsDiv = document.querySelector('.finalResult');
+
+// Add Event Listeners
+rockButton.addEventListener('click',playRound);
+paperButton.addEventListener('click',playRound);
+scissorsButton.addEventListener('click',playRound);
+
