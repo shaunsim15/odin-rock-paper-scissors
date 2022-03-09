@@ -35,16 +35,19 @@ function playRound(e){
         playerScoreDiv.textContent = `Player Score: ${playerScore}`;
         compScoreDiv.textContent = `Comp Score: ${compScore}`;
         currentResultDiv.textContent = `Draw! You both played ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)}.`;
+        playAudio("cricket");
     }
     else if ( (playerSelection==='rock' && computerSelection==='scissors') || (playerSelection==='scissors' && computerSelection==='paper') || (playerSelection==='paper' && computerSelection==='rock') ){
         playerScore += 1;
         playerScoreDiv.textContent = `Player Score: ${playerScore}`;
         currentResultDiv.textContent = `You Win! ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)} beats ${computerSelection.slice(0,1).toUpperCase()}${computerSelection.slice(1)}.`
+        playAudio("yay");
     }
     else{
         compScore += 1;
         compScoreDiv.textContent = `Comp Score: ${compScore}`;
         currentResultDiv.textContent = `You Lose! ${computerSelection.slice(0,1).toUpperCase()}${computerSelection.slice(1)} beats ${playerSelection.slice(0,1).toUpperCase()}${playerSelection.slice(1)}.`;
+        playAudio("aww");
     }
 
     // Update round number
@@ -99,6 +102,31 @@ function resetGame(){
     finalResultsDiv.textContent = "";
 }
 
+function playAudio(outcome){
+    console.log("."+`${outcome}`);
+    const audio = document.querySelector("."+`${outcome}`);
+    audio.currentTime = 0;
+    audio.play();
+}
+
+function hoverIn(e){
+    if(e.target.tagName === "BUTTON"){
+        e.target.classList.add('transition');
+    }
+    else if(e.target.tagName === "IMG"){
+        e.path[1].classList.add('transition');
+    }
+}
+
+function hoverOut(e){
+    if(e.target.tagName === "BUTTON"){
+        e.target.classList.remove('transition');
+    }
+    else if(e.target.tagName === "IMG"){
+        e.path[1].classList.remove('transition');
+    }
+}
+
 // Initial variable values
 let compScore = 0;
 let playerScore = 0;
@@ -120,4 +148,13 @@ const finalResultsDiv = document.querySelector('.finalResult');
 rockButton.addEventListener('click',playRound);
 paperButton.addEventListener('click',playRound);
 scissorsButton.addEventListener('click',playRound);
+
+rockButton.addEventListener('mouseover',hoverIn);
+paperButton.addEventListener('mouseover',hoverIn);
+scissorsButton.addEventListener('mouseover',hoverIn);
+
+rockButton.addEventListener('mouseout',hoverOut);
+paperButton.addEventListener('mouseout',hoverOut);
+scissorsButton.addEventListener('mouseout',hoverOut);
+
 
