@@ -8,16 +8,21 @@
         <link rel="stylesheet" href="./style.css">
     </head>
 
-    <body>
-        <button class="btn rock">Rock</button>
-        <button class="btn paper">Paper</button>
-        <button class="btn scissors">Scissors</button>
-        <div class="info">
-            <div class="roundNo"> Rounds Played: 0</div>
+    <body> 
+        <div class="roundNo"> Rounds Played: 0</div>
+        <div class = "scores">
             <div class="playerScore">Player Score: </div>
-            <div class="compScore">Computer Score: </div>
+            <div class="compScore">Comp Score: </div>
+        </div>
+        <div class="finalResult"></div>
+        <div class = "buttons">
+            <button class="btn rock"><img src="./images/rock.png" alt="rock picture">Rock</button>
+            <button class="btn paper"> <img src="./images/paper.png"  alt="paper picture"> Paper</button>
+            <button class="btn scissors"> <img src="./images/scissors.png"  alt="scissors picture"> Scissors</button>
+        </div>
+
+        <div class = "info">
             <div class="currentResult"></div>
-            <div class="finalResult">Winner: </div>
         </div>
         
         <script src="javascript.js"> </script>

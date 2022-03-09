@@ -1,0 +1,63 @@
+body {
+    background-color: #ddedf5;
+    font-size: 2em;
+}
+
+.roundNo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.scores {
+    display: flex;
+    justify-content: space-between;
+}
+
+.playerScore, 
+.compScore {
+    background-color: #e2e2e2; 
+    border: 2px solid #57a4bc;
+    width: 10em;
+    border-radius: 0.1em;
+}
+
+.finalResult{
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.btn {
+    display: flex;
+    flex-direction: column;
+    margin: 0em 8em 0em 8em;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    width: 20em;
+    height: auto;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.reset {
+    font-size: 2em;
+    background-color: #f7bebe;
+    border-radius: 0.1em;
+}

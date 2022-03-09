@@ -17,13 +17,13 @@ function computerPlay() {
 function playRound(e){
     // Define the player's Selection
     let playerSelection;
-    if (e.target.classList.contains('rock')){
+    if (e.target.classList.contains('rock') || e.path[1].classList.contains('rock')){
         playerSelection = 'rock';
     }
-    else if(e.target.classList.contains('paper')){
+    else if(e.target.classList.contains('paper') || e.path[1].classList.contains('paper')){
         playerSelection = 'paper';
     }
-    else if(e.target.classList.contains('scissors')){
+    else if(e.target.classList.contains('scissors')|| e.path[1].classList.contains('scissors')){
         playerSelection = 'scissors';
     }
 
@@ -55,10 +55,10 @@ function playRound(e){
     if (playerScore === pointsForVictory || compScore === pointsForVictory){
         // Update final results
         if (playerScore === pointsForVictory){
-            finalResultsDiv.textContent = "Winner: Player";
+            finalResultsDiv.textContent = "Overall Winner: Player";
         }
         else{
-            finalResultsDiv.textContent = "Winner: Computer";
+            finalResultsDiv.textContent = "Overall Winner: Computer";
         }
 
         // Append Reset button
@@ -96,7 +96,7 @@ function resetGame(){
     playerScoreDiv.textContent = 'Player Score:';
     compScoreDiv.textContent = 'Comp Score:';
     currentResultDiv.textContent = '';
-    finalResultsDiv.textContent = "Winner:";
+    finalResultsDiv.textContent = "";
 }
 
 // Initial variable values
