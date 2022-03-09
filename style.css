@@ -3,6 +3,12 @@ body {
     font-size: 2em;
 }
 
+.background{
+    background-image: url("./images/winner.png");
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
 .roundNo {
     display: flex;
     align-items: center;
@@ -39,16 +45,16 @@ body {
 .btn {
     display: flex;
     flex-direction: column;
-    margin: 0em 8em 0em 8em;
+    margin: 0em 5em 0em 5em;
     justify-content: center;
     align-items: center;
-    width: 10vw;
+    width: 13vw;
     height: auto;
-    font-size: 1vw;
+    font-size: 1em;
 }
 
 img {
-    width: 9vw;
+    width: 11vw;
     height: auto;
 }
 
@@ -57,6 +63,7 @@ img {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: 1em;
 }
 
 .reset {

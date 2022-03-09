@@ -76,6 +76,9 @@ function playRound(e){
         rockButton.removeEventListener('click',playRound);
         paperButton.removeEventListener('click',playRound);
         scissorsButton.removeEventListener('click',playRound);
+
+        // Background Image
+        document.querySelector('body').classList.add('background');
         return;
     }
 }
@@ -100,6 +103,9 @@ function resetGame(){
     compScoreDiv.textContent = 'Comp Score:';
     currentResultDiv.textContent = '';
     finalResultsDiv.textContent = "";
+
+    // Background Image
+    document.querySelector('body').classList.remove('background');
 }
 
 function playAudio(outcome){
